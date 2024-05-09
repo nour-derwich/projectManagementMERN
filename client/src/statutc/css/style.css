@@ -1,0 +1,47 @@
+body
+{
+    margin: 0;
+    padding:0;
+    font-family: 'Courier New', Courier, monospace;
+    background-image: linear-gradient(rgba(255, 0, 0, 0.249),#00000069);
+    background-repeat: no-repeat;
+}
+.todo h2
+{
+    background-color: rgb(195, 127, 38);
+}
+.todo
+{
+    border: 1px solid #000;
+}
+.Progress
+{
+    border: 1px solid #000;
+}
+.Progress h2
+{
+    background-color: rgb(130, 195, 38);
+}
+.Completed
+{
+    border: 1px solid #000;
+}
+.Completed h2
+{
+    background-color: rgb(38, 145, 195);
+}
+.btn
+{
+    margin: 20;
+    padding: 10;
+    border: 10 px solid #000;
+    border-radius: 50px;
+    background-color: bisque;
+}
+.box
+{
+    margin: 20;
+    justify-content: center;
+    text-align: center;
+    border: 10px solid #000;
+}
