@@ -5,6 +5,7 @@ import {
 
 // Navbar Component
 export const Navbar = ({ toggleSidebar }) => {
+  return null ;
   return (
     <div className="bg-white shadow-sm border-b border-gray-200 fixed top-0 right-0 left-0 z-20">
       <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
