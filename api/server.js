@@ -37,7 +37,24 @@ io.on('connection', (socket) => {
 // Import routes after io is set
 require('./routes/project.routes')(app);
 require('./routes/user.routes')(app);
-
+app.use('/api/departments', require('./routes/department.routes'));
+app.use('/api/employee', require('./routes/employee.routes'));
+app.use('/api/positions', require('./routes/position.routes'));
+app.get('/api/test-email', async (req, res) => {
+  try {
+    const { sendEmail } = require('../utils/email');
+    await sendEmail(
+      'nourderouich159@gmail.com', // Your own email to receive the test
+      'Test Email',
+      'This is a test email from your project management system',
+      '<h1>Test Email</h1><p>This is a test email from your project management system</p>'
+    );
+    res.json({ message: 'Test email sent successfully' });
+  } catch (error) {
+    console.error('Email test failed:', error);
+    res.status(500).json({ message: 'Failed to send test email', error: error.message });
+  }
+});
 const PORT = process.env.PORT || 5000;
 
 // Use server.listen instead of app.listen

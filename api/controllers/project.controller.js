@@ -1,6 +1,8 @@
 const { Project } = require('../models/project.model');
 const Activity = require('../models/activity.model');
-
+const { sendEmail } = require('../utils/email');
+const { projectCreatedTemplate } = require('../utils/emailTemplates');
+const User = require('../models/user.models');
 // GET all projects sorted by due date
 module.exports.getAllProjects = async (req, res) => {
   try {
@@ -17,18 +19,46 @@ module.exports.getAllProjects = async (req, res) => {
 };
 
 // POST a new project
+
+
 module.exports.createProject = async (req, res) => {
   const project = new Project({
     name: req.body.name,
-    dueDate: req.body.dueDate
+    dueDate: req.body.dueDate,
+    lastEditedBy: req.user ? req.user.id : null
   });
 
   try {
     const newProject = await project.save();
     
+    // Create activity record
+    const activity = new Activity({
+      userId: req.user ? req.user.id : null,
+      projectId: newProject._id,
+      action: 'create',
+      details: `Project "${newProject.name}" was created`
+    });
+    await activity.save();
+    
     // Emit socket event
     const io = req.app.get('io');
     io.emit('project_created', newProject);
+    
+    // Send email notifications to all users or specific roles
+    try {
+      // Get all users who should receive notifications (you can filter by role if needed)
+      const users = await User.find({ role: { $in: ['admin', 'manager'] } });
+      const template = projectCreatedTemplate(newProject);
+      for (const user of users) {
+        await sendEmail(user.email, template.subject, template.text, template.html);
+
+      }
+      
+      console.log('Project creation notification emails sent');
+    } catch (emailErr) {
+      console.error('Failed to send notification emails:', emailErr);
+      // Continue with the response even if emails fail
+    }
     
     res.status(201).json(newProject);
   } catch (err) {
