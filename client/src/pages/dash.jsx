@@ -264,109 +264,54 @@ const Dashboard = () => {
         <div className="md:ml-64 pt-16">
           <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
             {/* Top Stats Bar */}
-            <div className={`mb-6 ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-sm p-4 flex flex-wrap justify-between items-center gap-4 transition-colors duration-300`}>
-              <div className="flex items-center space-x-6">
-                <div>
+            <div className={` top_stats   `}>
+              <div className="list_items">
+                <div className='single_item'>
                   <div className="text-sm text-gray-500">Total Projects</div>
-                  <div className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>{totalProjects}</div>
+                  <div className="numb">{totalProjects}</div>
                 </div>
-                <div>
+                <div className='single_item'>
                   <div className="text-sm text-gray-500">Overdue</div>
-                  <div className={`text-2xl font-bold ${overdueTasks > 0 ? 'text-red-500' : darkMode ? 'text-white' : 'text-gray-900'}`}>{overdueTasks}</div>
+                  <div className="numb">{overdueTasks}</div>
                 </div>
-                <div>
+                <div className='single_item'>
                   <div className="text-sm text-gray-500">In Progress</div>
-                  <div className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>{inProgressProjects.length}</div>
+                  <div className="numb" >{inProgressProjects.length}</div>
                 </div>
-                <div>
+                <div className='single_item'>
                   <div className="text-sm text-gray-500">Completed</div>
-                  <div className={`text-2xl font-bold text-green-500`}>{completedProjects.length}</div>
+                  <div className="numb">{completedProjects.length}</div>
                 </div>
               </div>
               
-              <div className="flex items-center space-x-3">
-                <button
-                  onClick={toggleDarkMode}
-                  className={`p-2 rounded-full ${darkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-100 text-gray-600'} hover:bg-opacity-80 transition-colors`}
-                  title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
-                >
-                  {darkMode ? 
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="5"></circle>
-                      <line x1="12" y1="1" x2="12" y2="3"></line>
-                      <line x1="12" y1="21" x2="12" y2="23"></line>
-                      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                      <line x1="1" y1="12" x2="3" y2="12"></line>
-                      <line x1="21" y1="12" x2="23" y2="12"></line>
-                      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg> : 
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                  }
-                </button>
-                <button
-                  onClick={toggleActivityFeed}
-                  className={`p-2 rounded-full ${activityVisible ? 'bg-indigo-100 text-indigo-600' : darkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-100 text-gray-600'} hover:bg-opacity-80 transition-colors`}
-                  title="Toggle activity feed"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-                  </svg>
-                </button>
-                <button
-                  onClick={() => setView(view === 'kanban' ? 'list' : 'kanban')}
-                  className={`p-2 rounded-full ${darkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-100 text-gray-600'} hover:bg-opacity-80 transition-colors`}
-                  title={view === 'kanban' ? "Switch to list view" : "Switch to kanban view"}
-                >
-                  {view === 'kanban' ? <List size={20} /> : <LayoutGrid size={20} />}
-                </button>
-              </div>
+            
             </div>
             
             {/* Page Header */}
             <div className="mb-6">
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+              <div className=" mid_holder">
                 <div>
-                  <h1 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Project Kanban Board</h1>
+                  <h3 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Project Kanban Board</h3>
                   <p className="text-sm text-gray-500 mt-1">Drag and drop tasks between columns to update status</p>
                 </div>
                 
-                <div className="flex items-center space-x-4 mt-4 md:mt-0">
+                <div className=" ">
                   <button 
                     onClick={fetchProjects}
                     className={`${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-500 hover:text-gray-700'} transition-colors`}
                     title="Refresh projects"
+                    style={{ marginRight: '10px', background:"#ffb450" }}
                   >
                     <RefreshCw size={20} />
                   </button>
                   
-                  <button 
-                    onClick={() => setShowFilters(!showFilters)}
-                    className={`${showFilters ? 'bg-indigo-100 text-indigo-600' : darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-500 hover:text-gray-700'} p-2 rounded-full transition-colors`}
-                    title="Toggle filters"
-                  >
-                    <Filter size={18} />
-                  </button>
+             
                   
-                  <div className="relative">
-                    <button 
-                      onClick={() => setColumnLayout(
-                        columnLayout === 'equal' ? 'prioritize-todo' : 
-                        columnLayout === 'prioritize-todo' ? 'prioritize-inprogress' : 'equal'
-                      )}
-                      className={`${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-500 hover:text-gray-700'} p-2 rounded-full transition-colors`}
-                      title="Change column layout"
-                    >
-                      <Maximize size={18} />
-                    </button>
-                  </div>
+             
                   
                   <button 
                     onClick={navigateToNewProject}
-                    className={`${darkMode ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-indigo-600 hover:bg-indigo-700'} text-white font-medium py-2 px-4 rounded-md flex items-center transition-colors duration-200 shadow-sm hover:shadow-md`}
+                    className={""}
                   >
                     <PlusCircle size={18} className="mr-1" />
                     New Project
@@ -390,67 +335,7 @@ const Dashboard = () => {
               </div>
             )}
             
-            {/* Search and filters */}
-            <div className={`mb-6 ${showFilters ? 'block' : 'hidden md:block'}`}>
-              <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-sm p-4 transition-colors duration-300`}>
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                  <div className="relative flex-1 max-w-md">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Search size={18} className="text-gray-400" />
-                    </div>
-                    <input
-                      type="text"
-                      className={`block w-full pl-10 pr-3 py-2 border ${darkMode ? 'border-gray-700 bg-gray-700 text-white placeholder-gray-400' : 'border-gray-200 bg-white placeholder-gray-400'} rounded-lg leading-5 focus:outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-300 sm:text-sm transition-all shadow-sm`}
-                      placeholder="Search projects..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                  </div>
-                  
-                  <div className="flex flex-wrap items-center gap-4">
-                    <div className="flex items-center">
-                      <label htmlFor="sortBy" className={`mr-2 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-500'}`}>Sort by:</label>
-                      <div className="relative">
-                        <select
-                          id="sortBy"
-                          value={sortBy}
-                          onChange={(e) => setSortBy(e.target.value)}
-                          className={`appearance-none border ${darkMode ? 'border-gray-700 bg-gray-700 text-white' : 'border-gray-200 bg-white'} rounded-lg text-sm py-2 pl-3 pr-8 focus:outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-300 transition-all shadow-sm`}
-                        >
-                          <option value="dueDate">Due Date</option>
-                          <option value="name">Name</option>
-                          <option value="priority">Priority</option>
-                        </select>
-                        <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                          <ChevronDown size={16} className="text-gray-400" />
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center">
-                      <label htmlFor="priorityFilter" className={`mr-2 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-500'}`}>Priority:</label>
-                      <div className="relative">
-                        <select
-                          id="priorityFilter"
-                          value={priorityFilter}
-                          onChange={(e) => setPriorityFilter(e.target.value)}
-                          className={`appearance-none border ${darkMode ? 'border-gray-700 bg-gray-700 text-white' : 'border-gray-200 bg-white'} rounded-lg text-sm py-2 pl-3 pr-8 focus:outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-300 transition-all shadow-sm`}
-                        >
-                          <option value="all">All</option>
-                          <option value="urgent">Urgent</option>
-                          <option value="soon">Soon</option>
-                          <option value="overdue">Overdue</option>
-                        </select>
-                        <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                          <ChevronDown size={16} className="text-gray-400" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
+       
             {/* Grid Layout */}
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
               {/* Kanban Board */}
@@ -460,8 +345,8 @@ const Dashboard = () => {
                     <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600"></div>
                   </div>
                 ) : view === 'kanban' ? (
-                  <div className="flex flex-col md:flex-row gap-6 overflow-x-auto">
-                    <div className={`${getColumnClass()} min-w-[280px]`}>
+                  <div className="kanban">
+                    <div className={`${getColumnClass()} min-w-[280px] k_item`}>
                       <ProjectColumn 
                         title="To Do" 
                         projects={todoProjects} 
@@ -475,7 +360,7 @@ const Dashboard = () => {
                       />
                     </div>
                     
-                    <div className={`${getColumnClass()} min-w-[280px]`}>
+                    <div className={`${getColumnClass()} min-w-[280px] k_item`}>
                       <ProjectColumn 
                         title="In Progress" 
                         projects={inProgressProjects} 
@@ -489,7 +374,7 @@ const Dashboard = () => {
                       />
                     </div>
                     
-                    <div className={`${getColumnClass()} min-w-[280px]`}>
+                    <div className={`${getColumnClass()} min-w-[280px] k_item`}>
                       <ProjectColumn 
                         title="Completed" 
                         projects={completedProjects} 
