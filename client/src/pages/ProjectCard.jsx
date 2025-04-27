@@ -131,14 +131,26 @@ const ProjectCard = ({ project, onStatusChange, onRemove, darkMode = false }) =>
     >
       <div className="flex justify-between items-start">
         <div className="flex-1">
-          <div className="flex items-center">
-            <Move size={14} className={`mr-2 ${darkMode ? 'text-gray-400' : 'text-gray-400'}`} />
+          <div className="flex items-center card_top">
+            <div>
+   <Move size={14} className={`mr-2 ${darkMode ? 'text-gray-400' : 'text-gray-400'}`} />
             <h3 className={`font-medium text-lg mb-1 ${isCompleted ? 'line-through text-gray-500' : getTextColor()}`}>
               {project.name}
             </h3>
+            </div>
+         <div>
+            <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowDropdown(!showDropdown);
+            }}
+            className={`p-1 ${darkMode ? 'text-gray-300 hover:bg-gray-600' : 'text-gray-500 hover:bg-gray-100'} rounded-full transition-colors`}
+          >
+            <MoreHorizontal size={18} />
+          </button></div>
           </div>
           
-          <div className={`flex items-center text-sm ${darkMode ? 'text-gray-300' : 'text-gray-500'} mb-2`}>
+          <div className={`card_date`}>
             <Calendar size={14} className="mr-1" />
             <span>
               {formatDate(project.dueDate)}
@@ -153,18 +165,10 @@ const ProjectCard = ({ project, onStatusChange, onRemove, darkMode = false }) =>
         </div>
         
         <div className="relative">
-          <button 
-            onClick={(e) => {
-              e.stopPropagation();
-              setShowDropdown(!showDropdown);
-            }}
-            className={`p-1 ${darkMode ? 'text-gray-300 hover:bg-gray-600' : 'text-gray-500 hover:bg-gray-100'} rounded-full transition-colors`}
-          >
-            <MoreHorizontal size={18} />
-          </button>
+       
           
           {showDropdown && (
-            <div className={`absolute right-0 mt-1 ${darkMode ? 'bg-gray-700' : 'bg-white'} shadow-lg rounded-md py-1 z-10 w-36 ${darkMode ? 'border-gray-600' : 'border-gray-100'} border`}>
+            <div className={`absolute right-0 `}>
               {project.status === 'To Do' && (
                 <button
                   onClick={(e) => {
@@ -226,7 +230,7 @@ const ProjectCard = ({ project, onStatusChange, onRemove, darkMode = false }) =>
             {project.description || "No description available."}
           </div>
           
-          <div className="flex flex-wrap items-center mt-3 gap-3">
+          <div className="card_btm">
             <div className={`flex items-center ${darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm`}>
               <User size={14} className="mr-1" />
               {project.assignee || "Unassigned"}

@@ -89,62 +89,43 @@ const ProjectColumn = ({
       ref={drop}
       className={`rounded-lg shadow-sm border ${getBorderColor()} ${getBgColor()} transition-all duration-200 ${
         isOver ? 'ring-2 ring-indigo-300 transform scale-[1.01]' : ''
-      }`}
+      }  single_column`}
     >
-      <div className={`p-4 border-b ${getBorderColor()}`}>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
+      <div className={`p-4 border-b ${getBorderColor()}  `}>
+        <div className="k_header">
+          <div className="tit ">
+       
             <div className={`p-2 rounded-lg ${getStatusBgColor()}`}>
               {React.cloneElement(icon, { className: `${color}` })}
             </div>
-            <h2 className={`text-lg font-semibold ${getTextColor()} ml-3`}>{title}</h2>
-            <span className={`ml-2 ${color} text-xs font-medium px-2.5 py-0.5 rounded-full`}>
-              {totalProjects}
-            </span>
-            
-            {overdueProjects > 0 && status !== 'Completed' && (
-              <span className="ml-2 bg-red-100 text-red-800 text-xs font-medium px-2 py-0.5 rounded-full flex items-center">
-                <AlertTriangle size={12} className="mr-1" />
-                {overdueProjects} overdue
-              </span>
-            )}
+            <h2 className={`text-lg font-semibold ${getTextColor()} ml-3`}>{title} </h2>
+     
+         
           </div>
           
-          <div className="flex items-center space-x-1">
-            <button 
-              onClick={() => setShowOptions(!showOptions)} 
-              className={`p-1.5 rounded-full ${darkMode ? 'hover:bg-gray-700 text-gray-400' : 'hover:bg-gray-100 text-gray-500'} transition-colors`}
-            >
-              <MoreHorizontal size={16} />
-            </button>
-            <button 
+       
+          
+     
+
+<div>
+            
+            <span className={`ml-2 ${color} text-xs font-medium px-2.5 py-0.5 rounded-full`}>
+            {totalProjects}
+          </span>
+          
+          {overdueProjects > 0 && status !== 'Completed' && (
+            <span className="ml-2 bg-red-100 text-red-800 text-xs font-medium px-2 py-0.5 rounded-full flex items-center">
+              <AlertTriangle size={12} className="mr-1" />
+              {overdueProjects} overdue
+            </span>
+          )} 
+          
+          <button 
               onClick={() => setCollapsed(!collapsed)}
               className={`p-1.5 rounded-full ${darkMode ? 'hover:bg-gray-700 text-gray-400' : 'hover:bg-gray-100 text-gray-500'} transition-colors`}
             >
               <ChevronDown size={16} className={`transform transition-transform ${collapsed ? 'rotate-180' : ''}`} />
-            </button>
-          </div>
-          
-          {showOptions && (
-            <div className={`absolute mt-8 right-4 z-10 w-48 rounded-md shadow-lg ${darkMode ? 'bg-gray-700' : 'bg-white'} ring-1 ring-black ring-opacity-5`}>
-              <div className="py-1" role="menu" aria-orientation="vertical">
-                <button
-                  className={`block px-4 py-2 text-sm w-full text-left ${darkMode ? 'text-gray-200 hover:bg-gray-600' : 'text-gray-700 hover:bg-gray-100'}`}
-                  role="menuitem"
-                  onClick={() => setShowOptions(false)}
-                >
-                  Clear all tasks
-                </button>
-                <button
-                  className={`block px-4 py-2 text-sm w-full text-left ${darkMode ? 'text-gray-200 hover:bg-gray-600' : 'text-gray-700 hover:bg-gray-100'}`}
-                  role="menuitem"
-                  onClick={() => setShowOptions(false)}
-                >
-                  Sort by priority
-                </button>
-              </div>
-            </div>
-          )}
+            </button> </div>
         </div>
         
         {/* Column progress indicator */}
