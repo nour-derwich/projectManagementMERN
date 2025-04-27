@@ -15,6 +15,10 @@ const projectSchema = new mongoose.Schema({
     type: String,
     enum: ['To Do', 'In Progress', 'Completed'],
     default: 'To Do'
+  },
+   lastEditedBy: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User' 
   }
 });
 

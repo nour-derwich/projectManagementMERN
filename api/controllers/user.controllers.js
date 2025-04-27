@@ -66,11 +66,17 @@ module.exports.GetAllUsers = (req, res) => {
 };
 
 // GET CONNECTED USER
+
 module.exports.GetConnectedUser = async (req, res) => {
-  const user = await User.findOne({ _id: req.user.id });
-  // console.log(`** user => ${user}`);
-  if (!user) {
-    res.status(400).json({ msg: 'User not exist' });
+  try {
+    const user = await User.findOne({ _id: req.user.id });
+    if (!user) {
+      return res.status(400).json({ msg: 'User does not exist' });
+    }
+    return res.json(user);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ msg: 'Server Error', error });
   }
-  return res.json(user);
 };
+

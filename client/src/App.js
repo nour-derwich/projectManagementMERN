@@ -1,62 +1,64 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Landing from './pages/landing';
 import PrivateRoute from './components/pirvatRouter/PrivateRoute';
 import Dashboard from './pages/dash';
 import AddProject from './components/AddProject';
+import { SocketProvider } from './context/SocketContext';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [refresh, setRefresh] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Start with loading true
+
   useEffect(() => {
-    const config = {
-      headers: {
-        authorization: localStorage.getItem('token'),
-      },
-    };
-    // console.log(`Token => ${localStorage.getItem('token')}`);
-    axios
-      .get('http://localhost:8000/api/user/', config)
-      .then((res) => {
-        setCurrentUser(res.data);
-        // console.log('**** => ', res.data);
+    const fetchUser = async () => {
+      try {
+        const config = {
+          headers: {
+            authorization: localStorage.getItem('token'),
+          },
+        };
+        const response = await axios.get('http://localhost:5000/api/user/', config);
+        setCurrentUser(response.data);
         setIsLoading(false);
-      })
-      .catch((err) => console.log('*** ==> ', err));
+      } catch (error) {
+        console.error('Error fetching user:', error);
+        setIsLoading(false); // You may want to handle the error state differently here
+      }
+    };
+
+    fetchUser();
   }, [refresh]);
 
   const refresher = () => {
     setRefresh(!refresh);
   };
+
   return (
     <div className="App">
-      <Routes>
-        <Route path='/' element={<Landing/>}/>
-        <Route
+      <SocketProvider> {/* Move SocketProvider outside of Routes */}
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route
             path="/dash"
-            element={ <PrivateRoute> <Dashboard currentUser={currentUser}
-                  isLoading={isLoading}
-                  // refresh={refresh}
-                />
+            element={
+              <PrivateRoute>
+                <Dashboard currentUser={currentUser} isLoading={isLoading} />
               </PrivateRoute>
-
             }
           />
-           <Route
+          <Route
             path="/project/new"
             element={
               <PrivateRoute>
-                {' '}
                 <AddProject />
               </PrivateRoute>
             }
           />
-           
-
-      </Routes>
+        </Routes>
+      </SocketProvider>
     </div>
   );
 }
